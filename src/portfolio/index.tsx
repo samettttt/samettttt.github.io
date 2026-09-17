@@ -6,7 +6,7 @@ const styles = stylex.create({
     flexDirection: "column",
     justifyContent: "center",
     width: "100%",
-    color: "white",
+    color: "#77e9ff",
   },
 });
 
