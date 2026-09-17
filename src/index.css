@@ -1,3 +1,51 @@
+@font-face {
+  font-family: "KH Menu";
+  src: url("./fonts/KHMenu.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "KH Menu";
+  src: url("./fonts/KHMenuItalic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "KH Menu";
+  src: url("./fonts/KHMenuBold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "KH Menu";
+  src: url("./fonts/KHMenuBoldItalic.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "KH Gummi";
+  src: url("./fonts/KHGummi.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "KH Data";
+  src: url("./fonts/KHData.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* 1. Use a more-intuitive box-sizing model */
 *,
 *::before,
@@ -19,7 +67,7 @@
 
 body {
   background-color: #02aaaf;
-  font-family: system-ui, sans-serif;
+  font-family: "KH Menu", system-ui, sans-serif;
   /* 4. Increase line-height */
   line-height: 1.5;
   /* 5. Improve text rendering */
