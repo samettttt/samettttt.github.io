@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import * as stylex from "@stylexjs/stylex";
+import { Title } from "./title";
 
 const styles = stylex.create({
   root: {
@@ -15,11 +16,12 @@ const styles = stylex.create({
     inset: "0",
     overflow: "hidden",
     backgroundImage:
-      "linear-gradient(to right, #EBEBEB 0%, #ABABAB 60%, #9F9F9F 100%)",
+      "linear-gradient(to right, #FAF2F2 0%, #D7D7D7 30%, #ABABAB 70%, #9F9F9F 100%)",
     borderTopLeftRadius: "40px",
     borderBottomLeftRadius: "40px",
     borderTopRightRadius: "80px",
     borderBottomRightRadius: "80px",
+    boxShadow: "3px 6px 3px rgb(0 0 0 / 50%)",
   },
   background: {
     position: "absolute",
@@ -28,7 +30,7 @@ const styles = stylex.create({
     flexDirection: "column",
     overflow: "hidden",
     backgroundImage:
-      "linear-gradient(to right, #EBEBEB 0%, #ABABAB 60%, #9F9F9F 100%)",
+      "linear-gradient(to right, #FAF2F2 0%, #D7D7D7 30%, #ABABAB 70%, #9F9F9F 100%)",
     borderTopLeftRadius: "28px",
     borderBottomLeftRadius: "28px",
     borderTopRightRadius: "68px",
@@ -70,45 +72,32 @@ const styles = stylex.create({
   },
 });
 
-const titleStyles = stylex.create({
-  title: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    gap: "8px",
-    fontFamily: "KH Data",
-    fontSize: "1.5rem",
-    lineHeight: 1,
-    color: "#2C2C2C",
-  },
-  orb: {
-    width: "24px",
-    height: "24px",
-    backgroundColor: "#2C2C2C",
-    borderRadius: "50%",
-  },
-});
-
 const descriptionStyles = stylex.create({
   description: {
     fontFamily: "KH Data",
-    fontSize: "1.5rem",
+    fontSize: "32px",
     lineHeight: 1,
-    color: "#7C7A7A",
-    paddingLeft: "32px",
+    color: {
+      default: "#7C7A7A",
+      ":hover": "#525151",
+    },
+    paddingLeft: "38px",
+    cursor: {
+      default: null,
+      ":hover": "pointer",
+    },
   },
 });
 
 export const InfoElementPillDescription = ({
   description,
+  onClick,
 }: {
   description?: string;
-}) => <div {...stylex.props(descriptionStyles.description)}>{description}</div>;
-
-const InfoElementPillTitle = ({ title }: { title?: string }) => (
-  <div {...stylex.props(titleStyles.title)}>
-    <div {...stylex.props(titleStyles.orb)} />
-    {title}
+  onClick?: () => void;
+}) => (
+  <div {...stylex.props(descriptionStyles.description)} onClick={onClick}>
+    {description}
   </div>
 );
 
@@ -129,7 +118,7 @@ export const InfoElementPill = ({
     </div>
     <div {...stylex.props(styles.background)} />
     <div {...stylex.props(styles.content)}>
-      <InfoElementPillTitle title={title} />
+      <Title title={title} />
       {children}
     </div>
   </div>
