@@ -1,10 +1,7 @@
 import * as stylex from "@stylexjs/stylex";
-import {
-  InfoElementPill,
-  InfoElementPillDescription,
-  Window,
-} from "../ui-components";
+import { InfoElementPill, InfoElementPillDescription } from "../ui-components";
 import { useState } from "react";
+import { AboutMeWindow } from "./about-me";
 
 const styles = stylex.create({
   infoPills: {
@@ -21,14 +18,14 @@ const styles = stylex.create({
 });
 
 export const InfoPills = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAboutMeOpen, setIsAboutMeOpen] = useState(true);
   return (
     <>
       <div {...stylex.props(styles.infoPills)}>
         <InfoElementPill title="ABOUT ME">
           <InfoElementPillDescription
             description="CLICK HERE"
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => setIsAboutMeOpen(true)}
           />
         </InfoElementPill>
         <InfoElementPill title="EXPERIENCE">
@@ -41,15 +38,10 @@ export const InfoPills = () => {
           <InfoElementPillDescription description="SEND MESSAGE" />
         </InfoElementPill>
       </div>
-      <Window
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title="ABOUT ME"
-      >
-        <div>
-          <h1>Modal</h1>
-        </div>
-      </Window>
+      <AboutMeWindow
+        isOpen={isAboutMeOpen}
+        onClose={() => setIsAboutMeOpen(false)}
+      />
     </>
   );
 };

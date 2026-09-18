@@ -20,8 +20,8 @@ const titleStyles = stylex.create({
 });
 
 export const Title = ({ title }: { title?: string }) => (
-  <div {...stylex.props(titleStyles.title)}>
+  <h2 {...stylex.props(titleStyles.title)}>
     <div {...stylex.props(titleStyles.orb)} />
     {title}
-  </div>
+  </h2>
 );

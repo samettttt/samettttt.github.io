@@ -1,5 +1,6 @@
 import * as stylex from "@stylexjs/stylex";
 import { Title } from "../title";
+import { useEffect, useState } from "react";
 
 const styles = stylex.create({
   window: {
@@ -11,8 +12,6 @@ const styles = stylex.create({
   },
   windowContent: {
     position: "absolute",
-    top: "50%",
-    left: "50%",
     transform: "translate(-50%, -50%)",
     width: "50%",
     height: "50%",
@@ -97,24 +96,72 @@ const closeButton = stylex.create({
   },
 });
 
+type WindowPosition = {
+  x: number;
+  y: number;
+};
+
 export const Window = ({
   isOpen,
   onClose,
   children,
   title,
+  initialPosition,
 }: {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
   title: string;
+  initialPosition: WindowPosition;
 }) => {
+  const [windowPosition, setWindowPosition] =
+    useState<WindowPosition>(initialPosition);
+  const [dragState, setDragState] = useState<WindowPosition | null>(null);
+
+  useEffect(() => {
+    if (dragState === null) {
+      return;
+    }
+
+    const handleMouseMove = (event: MouseEvent) =>
+      setWindowPosition({
+        x: event.clientX - dragState.x,
+        y: event.clientY - dragState.y,
+      });
+
+    const handleMouseUp = () => setDragState(null);
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [dragState]);
+
+  const handleMouseDown = (event: React.MouseEvent<HTMLElement>) => {
+    if (event.button !== 0) {
+      return;
+    }
+
+    event.preventDefault();
+    setDragState({
+      x: event.clientX - windowPosition.x,
+      y: event.clientY - windowPosition.y,
+    });
+  };
+
   if (!isOpen) {
     return null;
   }
 
   return (
     <div {...stylex.props(styles.window)}>
-      <div {...stylex.props(styles.windowContent)}>
+      <div
+        {...stylex.props(styles.windowContent)}
+        style={{ top: windowPosition.y, left: windowPosition.x }}
+      >
         <div {...stylex.props(styles.windowBorderLayer)}>
           <div {...stylex.props(styles.bottomBorder)} />
           <div {...stylex.props(styles.leftSide)}>
@@ -123,11 +170,18 @@ export const Window = ({
           <div {...stylex.props(styles.rightSide)} />
         </div>
         <div {...stylex.props(styles.windowBackground)}>
-          <div {...stylex.props(styles.windowHeader)}>
+          <header
+            onMouseDown={handleMouseDown}
+            {...stylex.props(styles.windowHeader)}
+          >
             <Title title={title} />
-            <button onClick={onClose} {...stylex.props(closeButton.button)} />
-          </div>
-          <div {...stylex.props(styles.content)}>{children}</div>
+            <button
+              onClick={onClose}
+              onMouseDown={(event) => event.stopPropagation()}
+              {...stylex.props(closeButton.button)}
+            />
+          </header>
+          <section {...stylex.props(styles.content)}>{children}</section>
         </div>
       </div>
     </div>
