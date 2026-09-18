@@ -1,21 +1,21 @@
 import { useWindowManager, Window } from "../../ui-components";
 
-export const AboutMeWindow = () => {
+export const ExperienceWindow = () => {
   const { stack, bringToFront, closeWindow } = useWindowManager();
 
   return (
     <Window
-      isOpen={stack.includes("about-me")}
-      onClose={() => closeWindow("about-me")}
-      onFocus={() => bringToFront("about-me")}
-      title="ABOUT ME"
+      isOpen={stack.includes("experience")}
+      onClose={() => closeWindow("experience")}
+      onFocus={() => bringToFront("experience")}
+      title="EXPERIENCE"
       initialPosition={{
         x: window.innerWidth / 2,
         y: window.innerHeight / 2,
       }}
     >
       <div>
-        <h1>About Me</h1>
+        <h1>Experience</h1>
       </div>
     </Window>
   );

@@ -9,18 +9,18 @@ const styles = stylex.create({
     flexDirection: "column",
   },
   borderLayer: {
+    position: "absolute",
+    inset: "0",
     display: "flex",
     flexDirection: "row",
-    position: "absolute",
     height: "100%",
-    inset: "0",
     overflow: "hidden",
     backgroundImage:
       "linear-gradient(to right, #FAF2F2 0%, #D7D7D7 30%, #ABABAB 70%, #9F9F9F 100%)",
     borderTopLeftRadius: "40px",
-    borderBottomLeftRadius: "40px",
     borderTopRightRadius: "80px",
     borderBottomRightRadius: "80px",
+    borderBottomLeftRadius: "40px",
     boxShadow: "3px 6px 3px rgb(0 0 0 / 50%)",
   },
   background: {
@@ -32,17 +32,17 @@ const styles = stylex.create({
     backgroundImage:
       "linear-gradient(to right, #FAF2F2 0%, #D7D7D7 30%, #ABABAB 70%, #9F9F9F 100%)",
     borderTopLeftRadius: "28px",
-    borderBottomLeftRadius: "28px",
     borderTopRightRadius: "68px",
     borderBottomRightRadius: "68px",
+    borderBottomLeftRadius: "28px",
   },
   content: {
     position: "relative",
     display: "flex",
     flexDirection: "column",
-    margin: "6px",
-    paddingInline: "10px",
     paddingBlock: "5px",
+    paddingInline: "10px",
+    margin: "6px",
   },
   leftSide: {
     display: "flex",
@@ -58,8 +58,8 @@ const styles = stylex.create({
     right: 0,
     bottom: 0,
     left: 0,
-    height: "20%",
     width: "90%",
+    height: "20%",
     backgroundImage:
       "linear-gradient(to top, rgba(0, 0, 0, 0.22) 0%, rgba(0, 0, 0, 0.22) 80%, transparent 100%)",
   },
@@ -74,6 +74,7 @@ const styles = stylex.create({
 
 const descriptionStyles = stylex.create({
   description: {
+    paddingLeft: "38px",
     fontFamily: "KH Data",
     fontSize: "32px",
     lineHeight: 1,
@@ -81,7 +82,6 @@ const descriptionStyles = stylex.create({
       default: "#7C7A7A",
       ":hover": "#525151",
     },
-    paddingLeft: "38px",
     cursor: {
       default: null,
       ":hover": "pointer",

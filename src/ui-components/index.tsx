@@ -3,4 +3,4 @@ export {
   InfoElementPillDescription,
 } from "./info-element-pill";
 
-export { Window } from "./window";
+export { Window, WindowManagerProvider, useWindowManager } from "./window";

@@ -1,5 +1,6 @@
 import * as stylex from "@stylexjs/stylex";
 import { InfoPills } from "./info-pills";
+import { WindowManagerProvider } from "../ui-components";
 
 const styles = stylex.create({
   root: {
@@ -18,29 +19,18 @@ const styles = stylex.create({
     height: "100%",
   },
   title: {
-    fontFamily: "KH Data",
     alignSelf: "flex-end",
+    fontFamily: "KH Data",
     fontSize: "1.5rem",
     color: "#028084",
   },
   frame: {
     width: "min(80vw, 70rem)",
     height: "min(70vh, 50rem)",
-    borderWidth: 2,
-    borderStyle: "solid",
     borderColor: "#028084",
+    borderStyle: "solid",
+    borderWidth: 2,
     borderRadius: 24,
-  },
-  infoPills: {
-    display: "flex",
-    flexDirection: "column",
-    position: "relative",
-    gap: "8px",
-    top: "-25px",
-    left: "-40px",
-    right: 0,
-    bottom: "-10px",
-    width: "30%",
   },
 });
 
@@ -50,7 +40,9 @@ export const Portfolio = () => {
       <div {...stylex.props(styles.wrapper)}>
         <p {...stylex.props(styles.title)}>Samet Halili - Software Developer</p>
         <div {...stylex.props(styles.frame)}>
-          <InfoPills />
+          <WindowManagerProvider>
+            <InfoPills />
+          </WindowManagerProvider>
         </div>
       </div>
     </main>

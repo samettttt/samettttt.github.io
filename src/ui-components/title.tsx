@@ -4,8 +4,8 @@ const titleStyles = stylex.create({
   title: {
     display: "flex",
     flexDirection: "row",
-    alignItems: "center",
     gap: "8px",
+    alignItems: "center",
     fontFamily: "KH Data",
     fontSize: "32px",
     lineHeight: 1,

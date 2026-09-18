@@ -2,34 +2,29 @@ import * as stylex from "@stylexjs/stylex";
 import { Title } from "../title";
 import { useEffect, useState } from "react";
 
+export { WindowManagerProvider, useWindowManager } from "./window-manager";
+
 const styles = stylex.create({
   window: {
     position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-  },
-  windowContent: {
-    position: "absolute",
-    transform: "translate(-50%, -50%)",
     width: "50%",
     height: "50%",
+    transform: "translate(-50%, -50%)",
   },
   windowHeader: {
     display: "flex",
-    paddingTop: "8px",
-    paddingLeft: "8px",
-    paddingRight: "16px",
-    justifyContent: "space-between",
     alignItems: "center",
+    justifyContent: "space-between",
+    paddingTop: "8px",
+    paddingRight: "16px",
+    paddingLeft: "8px",
   },
   windowBorderLayer: {
+    position: "absolute",
+    inset: "0",
     display: "flex",
     flexDirection: "row",
-    position: "absolute",
     height: "100%",
-    inset: "0",
     overflow: "hidden",
     backgroundImage:
       "linear-gradient(to right, #FAF2F2 0%, #D7D7D7 30%, #ABABAB 80%, #9F9F9F 100%)",
@@ -60,8 +55,8 @@ const styles = stylex.create({
     right: 0,
     bottom: 0,
     left: 0,
-    height: "4%",
     width: "90%",
+    height: "4%",
     backgroundImage:
       "linear-gradient(to top, rgba(0, 0, 0, 0.22) 0%, rgba(0, 0, 0, 0.22) 80%, transparent 100%)",
   },
@@ -77,22 +72,22 @@ const styles = stylex.create({
     display: "flex",
     flexDirection: "column",
     height: "100%",
-    backgroundColor: "#2F2F2F",
+    padding: "8px",
+    marginInline: "8px",
     marginTop: "8px",
     marginBottom: "8px",
-    marginInline: "8px",
-    padding: "8px",
+    backgroundColor: "#2F2F2F",
     borderRadius: "10px",
   },
 });
 
 const closeButton = stylex.create({
   button: {
-    backgroundColor: "#2C2C2C",
     width: "20px",
     height: "20px",
     padding: "10px",
     cursor: "pointer",
+    backgroundColor: "#2C2C2C",
   },
 });
 
@@ -103,16 +98,18 @@ type WindowPosition = {
 
 export const Window = ({
   isOpen,
-  onClose,
-  children,
   title,
   initialPosition,
+  onClose,
+  onFocus,
+  children,
 }: {
   isOpen: boolean;
-  onClose: () => void;
-  children: React.ReactNode;
   title: string;
   initialPosition: WindowPosition;
+  onClose: () => void;
+  onFocus: () => void;
+  children: React.ReactNode;
 }) => {
   const [windowPosition, setWindowPosition] =
     useState<WindowPosition>(initialPosition);
@@ -157,32 +154,31 @@ export const Window = ({
   }
 
   return (
-    <div {...stylex.props(styles.window)}>
-      <div
-        {...stylex.props(styles.windowContent)}
-        style={{ top: windowPosition.y, left: windowPosition.x }}
-      >
-        <div {...stylex.props(styles.windowBorderLayer)}>
-          <div {...stylex.props(styles.bottomBorder)} />
-          <div {...stylex.props(styles.leftSide)}>
-            <div {...stylex.props(styles.topBorder)} />
-          </div>
-          <div {...stylex.props(styles.rightSide)} />
+    <div
+      {...stylex.props(styles.window)}
+      style={{ top: windowPosition.y, left: windowPosition.x }}
+      onMouseDown={onFocus}
+    >
+      <div {...stylex.props(styles.windowBorderLayer)}>
+        <div {...stylex.props(styles.bottomBorder)} />
+        <div {...stylex.props(styles.leftSide)}>
+          <div {...stylex.props(styles.topBorder)} />
         </div>
-        <div {...stylex.props(styles.windowBackground)}>
-          <header
-            onMouseDown={handleMouseDown}
-            {...stylex.props(styles.windowHeader)}
-          >
-            <Title title={title} />
-            <button
-              onClick={onClose}
-              onMouseDown={(event) => event.stopPropagation()}
-              {...stylex.props(closeButton.button)}
-            />
-          </header>
-          <section {...stylex.props(styles.content)}>{children}</section>
-        </div>
+        <div {...stylex.props(styles.rightSide)} />
+      </div>
+      <div {...stylex.props(styles.windowBackground)}>
+        <header
+          onMouseDown={handleMouseDown}
+          {...stylex.props(styles.windowHeader)}
+        >
+          <Title title={title} />
+          <button
+            onClick={onClose}
+            onMouseDown={(event) => event.stopPropagation()}
+            {...stylex.props(closeButton.button)}
+          />
+        </header>
+        <section {...stylex.props(styles.content)}>{children}</section>
       </div>
     </div>
   );
