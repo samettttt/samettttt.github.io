@@ -1,14 +1,14 @@
 import * as stylex from "@stylexjs/stylex";
 import { Title } from "../title";
 import { useEffect, useState } from "react";
+import { Resizable } from "react-resizable";
+import "react-resizable/css/styles.css";
 
 export { WindowManagerProvider, useWindowManager } from "./window-manager";
 
 const styles = stylex.create({
   window: {
     position: "fixed",
-    width: "50%",
-    height: "50%",
     transform: "translate(-50%, -50%)",
   },
   windowHeader: {
@@ -100,6 +100,8 @@ export const Window = ({
   isOpen,
   title,
   initialPosition,
+  initialWidth,
+  initialHeight,
   onClose,
   onFocus,
   children,
@@ -107,10 +109,14 @@ export const Window = ({
   isOpen: boolean;
   title: string;
   initialPosition: WindowPosition;
+  initialWidth: number;
+  initialHeight: number;
   onClose: () => void;
   onFocus: () => void;
   children: React.ReactNode;
 }) => {
+  const [width, setWidth] = useState(initialWidth);
+  const [height, setHeight] = useState(initialHeight);
   const [windowPosition, setWindowPosition] =
     useState<WindowPosition>(initialPosition);
   const [dragState, setDragState] = useState<WindowPosition | null>(null);
@@ -154,32 +160,47 @@ export const Window = ({
   }
 
   return (
-    <div
-      {...stylex.props(styles.window)}
-      style={{ top: windowPosition.y, left: windowPosition.x }}
-      onMouseDown={onFocus}
+    <Resizable
+      width={width}
+      height={height}
+      onResize={(_, data) => {
+        if (data.size.width < 500) {
+          return;
+        }
+        if (data.size.height < 500) {
+          return;
+        }
+        setWidth(data.size.width);
+        setHeight(data.size.height);
+      }}
     >
-      <div {...stylex.props(styles.windowBorderLayer)}>
-        <div {...stylex.props(styles.bottomBorder)} />
-        <div {...stylex.props(styles.leftSide)}>
-          <div {...stylex.props(styles.topBorder)} />
+      <div
+        {...stylex.props(styles.window)}
+        style={{ top: windowPosition.y, left: windowPosition.x, width, height }}
+        onMouseDown={onFocus}
+      >
+        <div {...stylex.props(styles.windowBorderLayer)}>
+          <div {...stylex.props(styles.bottomBorder)} />
+          <div {...stylex.props(styles.leftSide)}>
+            <div {...stylex.props(styles.topBorder)} />
+          </div>
+          <div {...stylex.props(styles.rightSide)} />
         </div>
-        <div {...stylex.props(styles.rightSide)} />
+        <div {...stylex.props(styles.windowBackground)}>
+          <header
+            onMouseDown={handleMouseDown}
+            {...stylex.props(styles.windowHeader)}
+          >
+            <Title title={title} />
+            <button
+              onClick={onClose}
+              onMouseDown={(event) => event.stopPropagation()}
+              {...stylex.props(closeButton.button)}
+            />
+          </header>
+          <section {...stylex.props(styles.content)}>{children}</section>
+        </div>
       </div>
-      <div {...stylex.props(styles.windowBackground)}>
-        <header
-          onMouseDown={handleMouseDown}
-          {...stylex.props(styles.windowHeader)}
-        >
-          <Title title={title} />
-          <button
-            onClick={onClose}
-            onMouseDown={(event) => event.stopPropagation()}
-            {...stylex.props(closeButton.button)}
-          />
-        </header>
-        <section {...stylex.props(styles.content)}>{children}</section>
-      </div>
-    </div>
+    </Resizable>
   );
 };

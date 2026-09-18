@@ -25,7 +25,7 @@ export const WindowManagerProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [stack, setStack] = useState<Array<WindowId>>([]);
+  const [stack, setStack] = useState<Array<WindowId>>(["about-me"]);
 
   const bringToFront = useCallback(
     (id: WindowId) =>

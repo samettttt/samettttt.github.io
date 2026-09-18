@@ -13,6 +13,8 @@ export const AboutMeWindow = () => {
         x: window.innerWidth / 2,
         y: window.innerHeight / 2,
       }}
+      initialWidth={500}
+      initialHeight={500}
     >
       <div>
         <h1>About Me</h1>
